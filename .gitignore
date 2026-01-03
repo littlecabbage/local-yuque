@@ -22,7 +22,10 @@ venv.bak/
 .installed.cfg
 *.egg
 *.eggs/
+<<<<<<< HEAD
 .eggs/
+=======
+>>>>>>> 56a0bc77a6e27f764cf8c49aef764db8ee95c3d1
 
 # uv (Python package manager)
 .uv/
@@ -69,3 +72,9 @@ coverage/
 .cache/
 .temp/
 .tmp/
+<<<<<<< HEAD
+=======
+
+# Data directory
+data/
+>>>>>>> 56a0bc77a6e27f764cf8c49aef764db8ee95c3d1
