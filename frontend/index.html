@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yueque - Local Knowledge Base</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#e6f7ef', // Yuque light background
+                100: '#bfeud9',
+                500: '#00B96B', // Yuque Brand Green
+                600: '#00a35e',
+                700: '#008f52',
+              },
+              gray: {
+                50: '#fdfdfd', // Very light gray for backgrounds
+                100: '#f7f7f7',
+                200: '#efefef',
+                300: '#e0e0e0',
+                800: '#262626', // Yuque dark text
+              }
+            },
+            fontFamily: {
+              sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #bdbdbd; }
+      
+      /* Markdown Styles mimicking Yuque */
+      .markdown-body { color: #262626; line-height: 1.8; }
+      .markdown-body h1 { font-size: 1.8em; font-weight: 600; margin-bottom: 0.8em; margin-top: 1.5em; color: #000; }
+      .markdown-body h2 { font-size: 1.4em; font-weight: 600; margin-bottom: 0.6em; margin-top: 1.2em; color: #262626; }
+      .markdown-body h3 { font-size: 1.2em; font-weight: 600; margin-bottom: 0.5em; margin-top: 1em; }
+      .markdown-body p { margin-bottom: 1.2em; font-size: 15px; color: #262626; }
+      .markdown-body ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 1em; }
+      .markdown-body blockquote { 
+        border-left: 4px solid #00B96B; 
+        background: #fdfdfd; 
+        padding: 0.8em 1em; 
+        margin-bottom: 1em;
+        color: #595959; 
+      }
+      .markdown-body code { 
+        background-color: #f5f5f5; 
+        padding: 0.2em 0.4em; 
+        border-radius: 4px; 
+        font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; 
+        font-size: 0.85em; 
+        color: #d14;
+      }
+      .markdown-body pre { 
+        background-color: #f7f7f7; 
+        padding: 1em; 
+        border-radius: 8px; 
+        overflow-x: auto; 
+        margin-bottom: 1.2em; 
+        font-size: 13px;
+        border: 1px solid #efefef;
+      }
+      .markdown-body a { color: #00B96B; text-decoration: none; }
+      .markdown-body a:hover { text-decoration: underline; }
+      .markdown-body hr { height: 1px; background-color: #efefef; border: none; margin: 2em 0; }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
+    "uuid": "https://esm.sh/uuid@^13.0.0",
+    "clsx": "https://esm.sh/clsx@^2.1.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-white text-slate-800 antialiased overflow-hidden h-screen w-screen">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

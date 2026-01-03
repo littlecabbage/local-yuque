@@ -1,0 +1,16 @@
+[project]
+name = "local-yuque-backend"
+version = "0.1.0"
+description = "Backend for Local Yuque"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "aiofiles>=23.2.1",
+    "python-multipart>=0.0.6",
+    "sqlmodel>=0.0.14"
+]
+
+[tool.uv]
+dev-dependencies = []
