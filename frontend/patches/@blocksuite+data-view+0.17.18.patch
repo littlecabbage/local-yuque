@@ -1,0 +1,63 @@
+diff --git a/node_modules/@blocksuite/data-view/dist/core/common/group-by/renderer/boolean-group.js b/node_modules/@blocksuite/data-view/dist/core/common/group-by/renderer/boolean-group.js
+index ff7b3b2..43ddca9 100644
+--- a/node_modules/@blocksuite/data-view/dist/core/common/group-by/renderer/boolean-group.js
++++ b/node_modules/@blocksuite/data-view/dist/core/common/group-by/renderer/boolean-group.js
+@@ -1,4 +1,4 @@
+-import { CheckBoxCkeckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
++import { CheckBoxCheckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
+ import { css, html } from 'lit';
+ import { BaseGroup } from './base.js';
+ export class BooleanGroupView extends BaseGroup {
+@@ -15,7 +15,7 @@ export class BooleanGroupView extends BaseGroup {
+     render() {
+         return html ` <div class="data-view-group-title-boolean-view">
+       ${this.value
+-            ? CheckBoxCkeckSolidIcon({ style: `color:#1E96EB` })
++            ? CheckBoxCheckSolidIcon({ style: `color:#1E96EB` })
+             : CheckBoxUnIcon()}
+     </div>`;
+     }
+diff --git a/node_modules/@blocksuite/data-view/dist/property-presets/checkbox/cell-renderer.js b/node_modules/@blocksuite/data-view/dist/property-presets/checkbox/cell-renderer.js
+index 1ca6ce8..816078a 100644
+--- a/node_modules/@blocksuite/data-view/dist/property-presets/checkbox/cell-renderer.js
++++ b/node_modules/@blocksuite/data-view/dist/property-presets/checkbox/cell-renderer.js
+@@ -32,7 +32,7 @@ var __runInitializers = (this && this.__runInitializers) || function (thisArg, i
+     }
+     return useValue ? value : void 0;
+ };
+-import { CheckBoxCkeckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
++import { CheckBoxCheckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
+ import { css, html } from 'lit';
+ import { query } from 'lit/decorators.js';
+ import { BaseCellRenderer } from '../../core/property/index.js';
+@@ -120,7 +120,7 @@ let CheckboxCell = (() => {
+         render() {
+             const checked = this.value ?? false;
+             const icon = checked
+-                ? CheckBoxCkeckSolidIcon({ style: `color:#1E96EB` })
++                ? CheckBoxCheckSolidIcon({ style: `color:#1E96EB` })
+                 : CheckBoxUnIcon();
+             return html ` <div class="affine-database-checkbox-container">
+       <div
+diff --git a/node_modules/@blocksuite/data-view/dist/view-presets/table/row/row-select-checkbox.js b/node_modules/@blocksuite/data-view/dist/view-presets/table/row/row-select-checkbox.js
+index 505d875..8069dd6 100644
+--- a/node_modules/@blocksuite/data-view/dist/view-presets/table/row/row-select-checkbox.js
++++ b/node_modules/@blocksuite/data-view/dist/view-presets/table/row/row-select-checkbox.js
+@@ -34,7 +34,7 @@ var __runInitializers = (this && this.__runInitializers) || function (thisArg, i
+ };
+ import { ShadowlessElement } from '@blocksuite/block-std';
+ import { SignalWatcher, WithDisposable } from '@blocksuite/global/utils';
+-import { CheckBoxCkeckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
++import { CheckBoxCheckSolidIcon, CheckBoxUnIcon } from '@blocksuite/icons/lit';
+ import { computed } from '@preact/signals-core';
+ import { css, html } from 'lit';
+ import { property } from 'lit/decorators.js';
+@@ -97,7 +97,7 @@ let RowSelectCheckbox = (() => {
+             return html `
+       <div class="${classString}">
+         ${this.isSelected$.value
+-                ? CheckBoxCkeckSolidIcon({ style: `color:#1E96EB` })
++                ? CheckBoxCheckSolidIcon({ style: `color:#1E96EB` })
+                 : CheckBoxUnIcon()}
+       </div>
+     `;

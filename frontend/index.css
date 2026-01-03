@@ -1,0 +1,90 @@
+/* BlockSuite Editor Styles */
+
+/* BlockSuite editor container styles */
+.blocksuite-editor-container {
+  /* Ensure editor takes full height */
+  display: flex;
+  flex-direction: column;
+  
+  /* Remove default margins/padding */
+  margin: 0;
+  padding: 0;
+  
+  /* Ensure proper overflow handling */
+  overflow: auto;
+}
+
+/* BlockSuite PageEditor custom styles */
+.blocksuite-editor-container page-editor {
+  /* Take full width and height */
+  width: 100%;
+  height: 100%;
+  display: block;
+  
+  /* Add some padding for better readability */
+  padding: 2rem;
+  
+  /* Ensure proper box sizing */
+  box-sizing: border-box;
+}
+
+/* Customize BlockSuite editor appearance to match app theme */
+.blocksuite-editor-container affine-page-root {
+  /* Match app background */
+  background-color: #ffffff;
+  
+  /* Match app text color */
+  color: #262626;
+  
+  /* Match app font */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* Customize BlockSuite block styles */
+.blocksuite-editor-container [data-block-id] {
+  /* Add subtle hover effect */
+  transition: background-color 0.15s ease;
+}
+
+.blocksuite-editor-container [data-block-id]:hover {
+  background-color: rgba(0, 185, 107, 0.02);
+}
+
+/* Customize BlockSuite selection color to match app theme */
+.blocksuite-editor-container ::selection {
+  background-color: rgba(0, 185, 107, 0.2);
+}
+
+/* Customize BlockSuite link color */
+.blocksuite-editor-container a {
+  color: #00B96B;
+  text-decoration: none;
+}
+
+.blocksuite-editor-container a:hover {
+  text-decoration: underline;
+}
+
+/* Customize BlockSuite code block */
+.blocksuite-editor-container .affine-code-block-container {
+  background-color: #f7f7f7;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+}
+
+/* Ensure proper scrolling */
+.blocksuite-editor-container .affine-page-viewport {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,22 @@
+diff --git a/node_modules/@blocksuite/affine-components/dist/context-menu/menu.js b/node_modules/@blocksuite/affine-components/dist/context-menu/menu.js
+index 6e91e49..752c08a 100644
+--- a/node_modules/@blocksuite/affine-components/dist/context-menu/menu.js
++++ b/node_modules/@blocksuite/affine-components/dist/context-menu/menu.js
+@@ -35,7 +35,7 @@ var __runInitializers = (this && this.__runInitializers) || function (thisArg, i
+ import { rangeWrap } from '@blocksuite/affine-shared/utils';
+ import { ShadowlessElement } from '@blocksuite/block-std';
+ import { WithDisposable } from '@blocksuite/global/utils';
+-import { ArrowRightSmallIcon, CheckBoxCkeckSolidIcon, CheckBoxUnIcon, DoneIcon, } from '@blocksuite/icons/lit';
++import { ArrowRightSmallIcon, CheckBoxCheckSolidIcon, CheckBoxUnIcon, DoneIcon, } from '@blocksuite/icons/lit';
+ import { autoUpdate, computePosition, flip, offset, shift, } from '@floating-ui/dom';
+ import { css, html, nothing } from 'lit';
+ import { property, state } from 'lit/decorators.js';
+@@ -510,7 +510,7 @@ let MenuComponent = (() => {
+                             label: () => html `
+             <div class="icon">
+               ${checked
+-                                ? CheckBoxCkeckSolidIcon({ style: `color:#1E96EB` })
++                                ? CheckBoxCheckSolidIcon({ style: `color:#1E96EB` })
+                                 : CheckBoxUnIcon()}
+             </div>
+             <div class="affine-menu-action-text">

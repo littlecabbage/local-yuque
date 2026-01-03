@@ -77,6 +77,7 @@ const App: React.FC = () => {
   };
 
   const handleNodeClick = async (node: FileNode) => {
+    console.log('[App] handleNodeClick called with node:', node.id, node.type);
     setActiveDocId(node.id);
 
     // Auto-expand folder/kb
@@ -86,8 +87,10 @@ const App: React.FC = () => {
 
     // If it's a doc, fetch content
     if (node.type === 'doc') {
+      console.log('[App] Fetching content for doc:', node.id);
       try {
         const content = await api.getFileContent(node.id);
+        console.log('[App] Content fetched, setting activeNode');
         setActiveNode({ ...node, content });
       } catch (e) {
         console.error("Failed to load content", e);
@@ -196,6 +199,8 @@ const App: React.FC = () => {
 
   // Determine what to render in main area
   const renderMainContent = () => {
+    console.log('[App] renderMainContent called, activeNode:', activeNode?.id, activeNode?.type);
+    
     if (!activeNode) {
       return (
         <div className="flex-1 flex items-center justify-center text-gray-400 flex-col">
@@ -217,6 +222,7 @@ const App: React.FC = () => {
       );
     }
 
+    console.log('[App] Rendering Editor for node:', activeNode.id);
     return (
       <Editor
         node={activeNode}
