@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FileNode } from '../types';
 import { ChevronRight, ChevronDown, BookOpen, Folder, FileText, Plus, Search, Globe, MoreHorizontal, Clock, Star, Edit, Trash } from 'lucide-react';
 import clsx from 'clsx';
@@ -126,6 +126,101 @@ const NodeItem: React.FC<{
   );
 };
 
+// Add Button Component with Dropdown Menu
+const AddButton: React.FC<{
+  onCreateNode: (parentId: string | null, type: 'kb' | 'folder' | 'doc') => void;
+  lang: 'zh' | 'en';
+  nodes: FileNode[];
+}> = ({ onCreateNode, lang, nodes }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showDocMenu, setShowDocMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setShowDocMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleCreateKb = () => {
+    onCreateNode(null, 'kb');
+    setIsOpen(false);
+  };
+
+  const handleCreateDoc = () => {
+    setShowDocMenu(true);
+  };
+
+  const handleCreateDocInKb = (kbId: string | null) => {
+    onCreateNode(kbId, 'doc');
+    setIsOpen(false);
+    setShowDocMenu(false);
+  };
+
+  return (
+    <div className="relative" ref={menuRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="p-1.5 bg-white border border-gray-200 rounded-md hover:bg-gray-50 hover:border-gray-300 transition-colors"
+        title={lang === 'zh' ? '新增' : 'Add New'}
+      >
+        <Plus size={16} className="text-gray-600" />
+      </button>
+
+      {isOpen && (
+        <div className="absolute right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10 py-1">
+          <button
+            onClick={handleCreateKb}
+            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+          >
+            <BookOpen size={14} className="mr-2 text-gray-500" />
+            {lang === 'zh' ? '新增知识库' : 'New Knowledge Base'}
+          </button>
+          
+          <button
+            onClick={handleCreateDoc}
+            className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+          >
+            <FileText size={14} className="mr-2 text-gray-500" />
+            {lang === 'zh' ? '新增文档' : 'New Document'}
+          </button>
+
+          {showDocMenu && (
+            <div className="border-t border-gray-100 mt-1 pt-1 max-h-48 overflow-y-auto">
+              <div className="px-3 py-1 text-xs text-gray-500 font-medium">
+                {lang === 'zh' ? '选择知识库:' : 'Select Knowledge Base:'}
+              </div>
+              <button
+                onClick={() => handleCreateDocInKb(null)}
+                className="w-full text-left px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100"
+              >
+                {lang === 'zh' ? '顶级文档' : 'Top Level Document'}
+              </button>
+              {nodes.filter(node => node.type === 'kb').map(kb => (
+                <button
+                  key={kb.id}
+                  onClick={() => handleCreateDocInKb(kb.id)}
+                  className="w-full text-left px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 truncate"
+                  title={kb.title}
+                >
+                  <BookOpen size={12} className="inline mr-1 text-gray-400" />
+                  {kb.title}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const Sidebar: React.FC<SidebarProps> = ({ nodes, activeDocId, onNodeClick, onToggle, onCreateNode, onRename, onDelete, lang, setLang, onSearchClick }) => {
   return (
     <div className="w-64 h-full bg-[#FAFAFA] border-r border-gray-200 flex flex-col font-sans">
@@ -146,14 +241,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ nodes, activeDocId, onNodeClic
           </button>
         </div>
 
-        {/* Search */}
-        <div className="relative group mb-4 cursor-pointer" onClick={onSearchClick}>
-          <Search size={14} className="absolute left-2.5 top-2.5 text-gray-400 group-hover:text-gray-600 transition-colors" />
-          <div
-            className="w-full bg-white border border-gray-200 group-hover:border-gray-300 rounded-md py-1.5 pl-8 pr-3 text-sm text-gray-400 group-hover:text-gray-500 transition-all select-none"
-          >
-            {lang === 'zh' ? "搜索" : "Search"}
+        {/* Search and Add */}
+        <div className="flex items-center space-x-2 mb-4">
+          <div className="relative group flex-1 cursor-pointer" onClick={onSearchClick}>
+            <Search size={14} className="absolute left-2.5 top-2.5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+            <div
+              className="w-full bg-white border border-gray-200 group-hover:border-gray-300 rounded-md py-1.5 pl-8 pr-3 text-sm text-gray-400 group-hover:text-gray-500 transition-all select-none"
+            >
+              {lang === 'zh' ? "搜索" : "Search"}
+            </div>
           </div>
+          <AddButton onCreateNode={onCreateNode} lang={lang} nodes={nodes} />
         </div>
 
         {/* Navigation Shortcuts */}

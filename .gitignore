@@ -26,6 +26,7 @@ venv.bak/
 
 # uv (Python package manager)
 .uv/
+uv.lock
 .venv/
 
 # Node.js

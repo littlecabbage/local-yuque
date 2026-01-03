@@ -4,6 +4,7 @@ import { Editor } from './components/Editor';
 import { AIPanel } from './components/AIPanel';
 import { KbDashboard } from './components/KbDashboard';
 import { SearchModal } from './components/SearchModal';
+import { InputModal } from './components/InputModal';
 import { api } from './services/api';
 import { FileNode } from './types';
 
@@ -14,6 +15,19 @@ const App: React.FC = () => {
   const [isAIOpen, setIsAIOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
+  const [inputModal, setInputModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    placeholder: string;
+    defaultValue: string;
+    onConfirm: (value: string) => void;
+  }>({
+    isOpen: false,
+    title: '',
+    placeholder: '',
+    defaultValue: '',
+    onConfirm: () => {},
+  });
 
   // Load data on mount
   useEffect(() => {
@@ -110,36 +124,62 @@ const App: React.FC = () => {
       'doc': lang === 'zh' ? '无标题文档' : 'Untitled Doc'
     };
 
-    const title = prompt(lang === 'zh' ? "请输入名称" : "Enter name", titleMap[type]);
-    if (!title) return;
-
-    try {
-      await api.createNode(parentId, type, title);
-      await loadTree();
-    } catch (e) {
-      console.error("Failed to create node", e);
-      alert("Failed to create item");
-    }
+    setInputModal({
+      isOpen: true,
+      title: lang === 'zh' ? "请输入名称" : "Enter name",
+      placeholder: lang === 'zh' ? "请输入名称..." : "Enter name...",
+      defaultValue: titleMap[type],
+      onConfirm: async (title: string) => {
+        try {
+          await api.createNode(parentId, type, title);
+          await loadTree();
+        } catch (e) {
+          console.error("Failed to create node", e);
+          alert("Failed to create item");
+        }
+        setInputModal(prev => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   const handleRenameNode = async (node: FileNode) => {
-    const newTitle = prompt(lang === 'zh' ? "重命名" : "Rename", node.title);
-    if (!newTitle || newTitle === node.title) return;
+    setInputModal({
+      isOpen: true,
+      title: lang === 'zh' ? "重命名" : "Rename",
+      placeholder: lang === 'zh' ? "请输入新名称..." : "Enter new name...",
+      defaultValue: node.title,
+      onConfirm: async (newTitle: string) => {
+        if (newTitle === node.title) {
+          setInputModal(prev => ({ ...prev, isOpen: false }));
+          return;
+        }
 
-    try {
-      await api.renameNode(node.id, newTitle);
-      await loadTree();
-      if (activeNode?.id === node.id) {
-        setActiveNode({ ...activeNode, title: newTitle });
-      }
-    } catch (e) {
-      console.error("Failed to rename", e);
-      alert("Failed to rename");
-    }
+        try {
+          await api.renameNode(node.id, newTitle);
+          await loadTree();
+          if (activeNode?.id === node.id) {
+            setActiveNode({ ...activeNode, title: newTitle });
+          }
+        } catch (e) {
+          console.error("Failed to rename", e);
+          alert("Failed to rename");
+        }
+        setInputModal(prev => ({ ...prev, isOpen: false }));
+      },
+    });
   };
 
   const handleDeleteNode = async (node: FileNode) => {
-    if (!confirm(lang === 'zh' ? `确定删除 "${node.title}" 吗?` : `Delete "${node.title}"?`)) return;
+    if (window.confirm) {
+      // 使用原生的confirm作为后备方案
+      if (!confirm(lang === 'zh' ? `确定删除 "${node.title}" 吗?` : `Delete "${node.title}"?`)) return;
+    } else {
+      // 使用自定义确认对话框（简化版本）
+      const confirmed = window.prompt ? 
+        window.prompt(lang === 'zh' ? `输入"yes"确认删除 "${node.title}"` : `Type "yes" to confirm deleting "${node.title}"`) === 'yes' :
+        true; // 如果都不支持，直接执行删除
+      if (!confirmed) return;
+    }
 
     try {
       await api.deleteNode(node.id);
@@ -226,6 +266,18 @@ const App: React.FC = () => {
           setIsSearchOpen(false);
         }}
         lang={lang}
+      />
+
+      {/* Input Modal */}
+      <InputModal
+        isOpen={inputModal.isOpen}
+        onClose={() => setInputModal(prev => ({ ...prev, isOpen: false }))}
+        onConfirm={inputModal.onConfirm}
+        title={inputModal.title}
+        placeholder={inputModal.placeholder}
+        defaultValue={inputModal.defaultValue}
+        confirmText={lang === 'zh' ? '确认' : 'Confirm'}
+        cancelText={lang === 'zh' ? '取消' : 'Cancel'}
       />
     </div>
   );
